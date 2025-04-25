@@ -8,4 +8,5 @@ contextBridge.exposeInMainWorld('api', {
   uploadFile: (id) => ipcRenderer.invoke('upload-file', id),
   getAttachments: (id) => ipcRenderer.invoke('get-attachments', id),
   openFile: (path) => ipcRenderer.invoke('open-file', path),
+  deleteAttachment: (id) => ipcRenderer.invoke('delete-attachment', id),
 });

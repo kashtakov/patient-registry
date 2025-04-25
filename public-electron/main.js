@@ -99,6 +99,16 @@ app.whenReady().then(async () => {
     return { success: true };
   });
 
+  ipcMain.handle('delete-attachment', async (_event, attachmentId) => {
+    const file = await db('attachments').where({ id: attachmentId }).first();
+    if (file) {
+      await fs.remove(file.path); // удалить физически
+      await db('attachments').where({ id: attachmentId }).del(); // удалить из БД
+      return { success: true };
+    }
+    return { success: false };
+  });
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

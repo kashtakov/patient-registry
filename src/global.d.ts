@@ -12,6 +12,7 @@ declare global {
         { id: number; patient_id: number; filename: string; path: string }[]
       >;
       openFile: (path: string) => Promise<{ success: boolean }>;
+      deleteAttachment: (id: number) => Promise<{ success: boolean }>;
     };
   }
 
@@ -21,5 +22,9 @@ declare global {
     dob: string;
     diagnosis: string;
     status: string;
+    rank: string;
+    battalion: string;
+    unit: string;
+    position: string;
   };
 }

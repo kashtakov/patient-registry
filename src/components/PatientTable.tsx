@@ -37,6 +37,16 @@ const styles = {
     marginRight: 5,
     marginTop: 5,
   },
+  buttonDanger: {
+    background: '#dc3545',
+    color: 'white',
+    border: 'none',
+    borderRadius: 4,
+    padding: '6px 12px',
+    cursor: 'pointer',
+    marginRight: 5,
+    marginTop: 5,
+  },
   card: {
     maxWidth: 600,
     margin: '0 auto',
@@ -87,7 +97,7 @@ export default function PatientTable() {
         <div style={{ marginTop: 10 }}>
           <button style={styles.button} onClick={() => setEditingPatient(selectedPatient)}>✏️ Редактировать</button>
           <button
-            style={styles.button}
+            style={styles.buttonDanger}
             onClick={async () => {
               if (window.confirm(`Удалить пациента ${selectedPatient.name}?`)) {
                 await window.api.deletePatient(selectedPatient.id);
@@ -119,6 +129,18 @@ export default function PatientTable() {
           <div key={f.id}>
             📄 {f.filename}{' '}
             <button style={styles.button} onClick={() => window.api.openFile(f.path)}>Открыть</button>
+            <button
+              style={styles.buttonDanger}
+              onClick={async () => {
+                if (window.confirm(`Удалить справку "${f.filename}"?`)) {
+                  await window.api.deleteAttachment(f.id);
+                  const updated = await window.api.getAttachments(selectedPatient.id);
+                  setPatientFiles(updated);
+                }
+              }}
+            >
+              🗑️
+            </button>
           </div>
         ))}
 
