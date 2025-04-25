@@ -18,7 +18,9 @@ declare global {
 
   type Patient = {
     id: number;
-    name: string;
+    last_name: string;
+    first_name: string;
+    patronymic: string;
     dob: string;
     diagnosis: string;
     status: string;
@@ -28,3 +30,5 @@ declare global {
     position: string;
   };
 }
+
+export type { Patient };

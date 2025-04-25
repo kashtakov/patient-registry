@@ -28,11 +28,59 @@ app.whenReady().then(async () => {
   if (!hasPatients) {
     await db.schema.createTable('patients', (table) => {
       table.increments('id').primary();
-      table.string('name');
+      table.string('last_name');
+      table.string('first_name');
+      table.string('patronymic');
       table.string('dob');
       table.string('diagnosis');
       table.string('status');
+      table.string('rank');
+      table.string('battalion');
+      table.string('unit');
+      table.string('position');
     });
+  } else {
+    // Check and add missing columns
+    const columns = await db.schema.tableInfo('patients');
+    const columnNames = columns.map(col => col.name);
+    
+    // Add new name fields if they don't exist
+    if (!columnNames.includes('last_name')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('last_name');
+      });
+    }
+    if (!columnNames.includes('first_name')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('first_name');
+      });
+    }
+    if (!columnNames.includes('patronymic')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('patronymic');
+      });
+    }
+    // Add other missing columns
+    if (!columnNames.includes('rank')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('rank');
+      });
+    }
+    if (!columnNames.includes('battalion')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('battalion');
+      });
+    }
+    if (!columnNames.includes('unit')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('unit');
+      });
+    }
+    if (!columnNames.includes('position')) {
+      await db.schema.alterTable('patients', (table) => {
+        table.string('position');
+      });
+    }
   }
 
   const hasAttachments = await db.schema.hasTable('attachments');
